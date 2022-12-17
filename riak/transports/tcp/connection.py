@@ -248,7 +248,12 @@ class TcpConnection(object):
 
     def _connect(self):
         if not self._socket:
-            if self._timeout:
+            if self._proxy_url:
+                from python_socks.sync import Proxy
+                proxy = Proxy.from_url(self._proxy_url)
+                host, port = self._address
+                self._socket = proxy.connect(host, port, self._timeout)
+            elif self._timeout:
                 self._socket = socket.create_connection(self._address,
                                                         self._timeout)
             else:

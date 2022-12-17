@@ -60,6 +60,7 @@ class TcpTransport(Transport, TcpConnection):
             kwargs.get('ts_convert_timestamp', False)
         self._use_ttb = \
             kwargs.get('use_ttb', True)
+        self._proxy_url = kwargs.get("proxy_url")
 
     def _get_pbuf_codec(self):
         if not self._pbuf_c:
