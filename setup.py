@@ -34,11 +34,9 @@ try:
 except(IOError, ImportError):
     long_description = readme_md
 
-
-class PrePostInstall(install):
+class PostInstall(install):
     """ Post installation - run install_name_tool on Darwin """
     def run(self):
-        subprocess.call([sys.executable, "-m", "pip", "install", "aioriak"])
         install.run(self)
         subprocess.call([sys.executable, "-m", "pip", "install", "protobuf"])
 
@@ -63,7 +61,7 @@ setup(
     cmdclass={
         'build_messages': build_messages,
         'setup_timeseries': setup_timeseries,
-        'install': PrePostInstall
+        'install': PostInstall
     },
     classifiers=['License :: OSI Approved :: Apache Software License',
                  'Intended Audience :: Developers',
