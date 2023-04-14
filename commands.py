@@ -383,23 +383,9 @@ class build_messages(Command):
 
         for im in sorted(pb_files):
             with open(im, 'r', buffering=1) as pbfile:
-                contents = 'from six import *\n' + pbfile.read()
                 contents = re.sub(r'riak_pb2',
                                   r'riak.pb.riak_pb2',
-                                  contents)
-            # Look for this pattern in the protoc-generated file:
-            #
-            # class RpbCounterGetResp(_message.Message):
-            #    __metaclass__ = _reflection.GeneratedProtocolMessageType
-            #
-            # and convert it to:
-            #
-            # @add_metaclass(_reflection.GeneratedProtocolMessageType)
-            # class RpbCounterGetResp(_message.Message):
-            contents = re.sub(
-                r'class\s+(\S+)\((\S+)\):\s*\n'
-                '\s+__metaclass__\s+=\s+(\S+)\s*\n',
-                r'@add_metaclass(\3)\nclass \1(\2):\n', contents)
+                                  pbfile.read())
 
             with open(im, 'w', buffering=1) as pbfile:
                 pbfile.write(contents)
