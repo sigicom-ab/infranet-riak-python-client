@@ -26,6 +26,7 @@ setup(
         'six >= 1.8.0',
         'basho_erlastic >= 2.1.1',
         'python3_protobuf >=2.4.1, <2.6.0',
+        'looseversion ~= 1.1',
     ],
     package_data={'riak': ['erl_src/*']},
     description='Python client for Riak',
