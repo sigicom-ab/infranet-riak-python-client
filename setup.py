@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 import codecs
 import sys
@@ -6,8 +6,6 @@ import sys
 from setuptools import setup, find_packages
 from version import get_version
 from commands import setup_timeseries, build_messages
-from setuptools.command.install import install
-import subprocess
 
 install_requires = ['six >= 1.8.0', 'basho_erlastic >= 2.1.1']
 requires = ['six(>=1.8.0)', 'basho_erlastic(>= 2.1.1)']
@@ -34,12 +32,6 @@ try:
 except(IOError, ImportError):
     long_description = readme_md
 
-class PostInstall(install):
-    """ Post installation - run install_name_tool on Darwin """
-    def run(self):
-        install.run(self)
-        subprocess.call([sys.executable, "-m", "pip", "install", "protobuf"])
-
 setup(
     name='riak',
     version=get_version(),
@@ -60,8 +52,7 @@ setup(
     url='https://github.com/basho/riak-python-client',
     cmdclass={
         'build_messages': build_messages,
-        'setup_timeseries': setup_timeseries,
-        'install': PostInstall
+        'setup_timeseries': setup_timeseries
     },
     classifiers=['License :: OSI Approved :: Apache Software License',
                  'Intended Audience :: Developers',
@@ -72,4 +63,3 @@ setup(
                  'Programming Language :: Python :: 3.5',
                  'Topic :: Database']
     )
-
