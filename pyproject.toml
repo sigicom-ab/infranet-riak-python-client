@@ -1,0 +1,37 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "riak"
+dynamic = ["version"]
+description = "Python client for Riak"
+readme = "README.md"
+license = "Apache-2.0"
+authors = [
+    { name = "Basho Technologies", email = "clients@basho.com" },
+]
+classifiers = [
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Database",
+]
+dependencies = [
+    "basho_erlastic >= 2.1.1",
+    "looseversion ~= 1.1",
+    "protobuf ~= 4.22.3",
+    "six >= 1.8.0",
+]
+
+[project.urls]
+Source = "https://github.com/sigicom-ab/infranet-riak-python-client"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/riak",
+]
