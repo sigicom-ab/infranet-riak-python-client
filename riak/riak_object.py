@@ -283,7 +283,7 @@ class RiakObject(object):
         return self
 
     def reload(self, r=None, pr=None, timeout=None, basic_quorum=None,
-               notfound_ok=None, head_only=False, usermeta_encoding = "utf-8"):
+               notfound_ok=None, head_only=False, ignore_usermeta = False):
         """
         Reload the object from Riak. When this operation completes, the
         object could contain new metadata and a new value, if the object
@@ -313,7 +313,7 @@ class RiakObject(object):
         :rtype: :class:`RiakObject`
         """
 
-        self.client.get(self, r=r, pr=pr, timeout=timeout, head_only=head_only, usermeta_encoding=usermeta_encoding)
+        self.client.get(self, r=r, pr=pr, timeout=timeout, head_only=head_only, ignore_usermeta=ignore_usermeta)
         return self
 
     def delete(self, r=None, w=None, dw=None, pr=None, pw=None,

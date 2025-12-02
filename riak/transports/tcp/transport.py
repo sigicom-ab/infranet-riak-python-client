@@ -147,7 +147,7 @@ class TcpTransport(Transport, TcpConnection):
                          doc="""the client ID for this connection""")
 
     def get(self, robj, r=None, pr=None, timeout=None, basic_quorum=None,
-            notfound_ok=None, head_only=False, usermeta_encoding = "utf-8"):
+            notfound_ok=None, head_only=False, ignore_usermeta = False):
         """
         Serialize get request and deserialize response
         """
@@ -157,7 +157,7 @@ class TcpTransport(Transport, TcpConnection):
                                timeout, basic_quorum,
                                notfound_ok, head_only)
         resp_code, resp = self._request(msg, codec)
-        return codec.decode_get(robj, resp, usermeta_encoding)
+        return codec.decode_get(robj, resp, ignore_usermeta)
 
     def put(self, robj, w=None, dw=None, pw=None, return_body=True,
             if_none_match=False, timeout=None):
