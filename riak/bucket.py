@@ -192,7 +192,7 @@ class RiakBucket(object):
         return obj
 
     def get(self, key, r=None, pr=None, timeout=None, include_context=None,
-            basic_quorum=None, notfound_ok=None, head_only=False):
+            basic_quorum=None, notfound_ok=None, head_only=False, usermeta_encoding = "utf-8"):
         """
         Retrieve a :class:`~riak.riak_object.RiakObject` or
         :class:`~riak.datatypes.Datatype`, based on the presence and value
@@ -233,7 +233,7 @@ class RiakBucket(object):
             return obj.reload(r=r, pr=pr, timeout=timeout,
                               basic_quorum=basic_quorum,
                               notfound_ok=notfound_ok,
-                              head_only=head_only)
+                              head_only=head_only, usermeta_encoding=usermeta_encoding)
 
     def multiget(self, keys, r=None, pr=None, timeout=None,
                  basic_quorum=None, notfound_ok=None,

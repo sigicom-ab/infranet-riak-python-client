@@ -714,7 +714,7 @@ class RiakClientOperations(RiakClientTransport):
 
     @retryable
     def get(self, transport, robj, r=None, pr=None, timeout=None,
-            basic_quorum=None, notfound_ok=None, head_only=False):
+            basic_quorum=None, notfound_ok=None, head_only=False, usermeta_encoding = "utf-8"):
         """
         get(robj, r=None, pr=None, timeout=None)
 
@@ -748,7 +748,7 @@ class RiakClientOperations(RiakClientTransport):
         return transport.get(robj, r=r, pr=pr, timeout=timeout,
                              basic_quorum=basic_quorum,
                              notfound_ok=notfound_ok,
-                             head_only=head_only)
+                             head_only=head_only, usermeta_encoding)
 
     @retryable
     def delete(self, transport, robj, rw=None, r=None, w=None, dw=None,

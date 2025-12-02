@@ -151,7 +151,7 @@ class PbufCodec(Codec):
         else:
             return rw
 
-    def decode_contents(self, contents, obj):
+    def decode_contents(self, contents, obj, usermeta_encoding = "utf-8"):
         """
         Decodes the list of siblings from the protobuf representation
         into the object.
@@ -162,14 +162,14 @@ class PbufCodec(Codec):
         :type obj: RiakObject
         :rtype RiakObject
         """
-        obj.siblings = [self.decode_content(c, RiakContent(obj))
+        obj.siblings = [self.decode_content(c, RiakContent(obj), usermeta_encoding)
                         for c in contents]
         # Invoke sibling-resolution logic
         if len(obj.siblings) > 1 and obj.resolver is not None:
             obj.resolver(obj)
         return obj
 
-    def decode_content(self, rpb_content, sibling):
+    def decode_content(self, rpb_content, sibling, usermeta_encoding = "utf-8"):
         """
         Decodes a single sibling from the protobuf representation into
         a RiakObject.
@@ -202,8 +202,8 @@ class PbufCodec(Codec):
             if rpb_content.HasField("last_mod_usecs"):
                 sibling.last_modified += rpb_content.last_mod_usecs / 1000000.0
 
-        sibling.usermeta = dict([(bytes_to_str(usermd.key),
-                                  bytes_to_str(usermd.value))
+        sibling.usermeta = dict([(bytes_to_str(usermd.key, usermeta_encoding),
+                                  bytes_to_str(usermd.value, usermeta_encoding))
                                  for usermd in rpb_content.usermeta])
         sibling.indexes = set([(bytes_to_str(index.key),
                                 decode_index_value(index.key, index.value))
@@ -962,13 +962,13 @@ class PbufCodec(Codec):
         rc = riak.pb.messages.MSG_CODE_PUT_RESP
         return Msg(mc, req.SerializeToString(), rc)
 
-    def decode_get(self, robj, resp):
+    def decode_get(self, robj, resp, usermeta_encoding = "utf-8"):
         if resp is not None:
             if resp.HasField('vclock'):
                 robj.vclock = VClock(resp.vclock, 'binary')
             # We should do this even if there are no contents, i.e.
             # the object is tombstoned
-            self.decode_contents(resp.content, robj)
+            self.decode_contents(resp.content, robj, usermeta_encoding)
         else:
             # "not found" returns an empty message,
             # so let's make sure to clear the siblings
