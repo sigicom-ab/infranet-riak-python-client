@@ -162,7 +162,7 @@ class PbufCodec(Codec):
         :type obj: RiakObject
         :rtype RiakObject
         """
-        obj.siblings = [self.decode_content(c, RiakContent(obj), ignore_usermeta)
+        obj.siblings = [self.decode_content(c, RiakContent(obj), ignore_usermeta=ignore_usermeta)
                         for c in contents]
         # Invoke sibling-resolution logic
         if len(obj.siblings) > 1 and obj.resolver is not None:
@@ -968,7 +968,7 @@ class PbufCodec(Codec):
                 robj.vclock = VClock(resp.vclock, 'binary')
             # We should do this even if there are no contents, i.e.
             # the object is tombstoned
-            self.decode_contents(resp.content, robj, ignore_usermeta)
+            self.decode_contents(resp.content, robj, ignore_usermeta=ignore_usermeta)
         else:
             # "not found" returns an empty message,
             # so let's make sure to clear the siblings

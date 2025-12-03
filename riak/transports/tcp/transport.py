@@ -157,7 +157,7 @@ class TcpTransport(Transport, TcpConnection):
                                timeout, basic_quorum,
                                notfound_ok, head_only)
         resp_code, resp = self._request(msg, codec)
-        return codec.decode_get(robj, resp, ignore_usermeta)
+        return codec.decode_get(robj, resp, ignore_usermeta=ignore_usermeta)
 
     def put(self, robj, w=None, dw=None, pw=None, return_body=True,
             if_none_match=False, timeout=None):
