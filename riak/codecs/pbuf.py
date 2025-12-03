@@ -202,7 +202,7 @@ class PbufCodec(Codec):
             if rpb_content.HasField("last_mod_usecs"):
                 sibling.last_modified += rpb_content.last_mod_usecs / 1000000.0
 
-        sibling.usermeta = None if ignore_usermeta else dict([(bytes_to_str(usermd.key),
+        sibling.usermeta = {} if ignore_usermeta else dict([(bytes_to_str(usermd.key),
                                   bytes_to_str(usermd.value))
                                  for usermd in rpb_content.usermeta])
         sibling.indexes = set([(bytes_to_str(index.key),
